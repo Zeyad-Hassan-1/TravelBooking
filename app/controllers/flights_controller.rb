@@ -1,4 +1,5 @@
 class FlightsController < ApplicationController
+  before_action :authenticate_user!
   def index
     @airports = Airport.all
     @flights = Flight.all
