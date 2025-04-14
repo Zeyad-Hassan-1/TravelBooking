@@ -1,0 +1,66 @@
+<%= form_with url: flights_path, method: :get, local: true, class: "flight-search-form" do %>
+  <div class="form-container">
+    <div class="form-group">
+      <%= label_tag :departure_date, "Departure Date", class: "form-label" %>
+      <div class="select-wrapper">
+        <%= select_tag :departure_date, options_for_select(@dates.map(&:to_s), params[:departure_date]), class: "form-select" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :destination, "Destination", class: "form-label" %>
+      <div class="select-wrapper">
+        <%= select_tag :destination, options_for_select(@destination, params[:destination]), class: "form-select" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :price, "Max Price", class: "form-label" %>
+      <div class="select-wrapper">
+        <%= select_tag :price, options_for_select(@prices, params[:price]), class: "form-select" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= submit_tag "Search Flights", class: "btn btn-search" %>
+    </div>
+  </div>
+<% end %>
+
+<% if @flights.any? %>
+  <div class="flight-results">
+    <h2 class="results-title">Available Flights</h2>
+    
+    <div class="flight-cards">
+      <% @flights.each do |flight| %>
+        <%= link_to flight_path(flight) do %>
+          <div class="flight-card">
+            <div class="flight-header">
+              <h3 class="flight-destination"><%= flight.destination %></h3>
+              <div class="flight-price">$<%= flight.price %></div>
+            </div>
+            
+            <div class="flight-details">
+              <div class="detail-item">
+                <span class="detail-label">Departure:</span>
+                <span class="detail-value"><%= flight.departure_date.strftime("%b %d, %Y") %></span>
+              </div>
+              
+              <div class="detail-item">
+                <span class="detail-label">From:</span>
+                <span class="detail-value"><%= flight.departure_airport.location %></span>
+              </div>
+              
+              <div class="detail-item">
+                <span class="detail-label">To:</span>
+                <span class="detail-value"><%= flight.arrival_airport.location %></span>
+              </div>
+            </div>
+            
+            <button class="btn btn-book">Book Now</button>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,15 @@
+<div class="flight-show-simple">
+  <div class="flight-header">
+    <h1><%= @flight.destination %></h1>
+    <div class="flight-price">$<%= @flight.price %></div>
+  </div>
+
+  <div class="flight-route">
+    <div class="airport">
+      <div class="airport-location"><%= @flight.departure_airport.location %></div>
+      <div class="flight-time"><%= @flight.departure_date.strftime("%b %d, %Y at %H:%M") %></div>
+    </div>
+  </div>
+
+  <%= link_to "Book Now", class: "book-button" %>
+</div>

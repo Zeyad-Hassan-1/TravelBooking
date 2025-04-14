@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  destination: MyString
+  arrival_airport: one
+  departure_airport: one
+  departure_date: 2025-04-14 10:21:47
+  price: 1
+
+two:
+  destination: MyString
+  arrival_airport: two
+  departure_airport: two
+  departure_date: 2025-04-14 10:21:47
+  price: 1
