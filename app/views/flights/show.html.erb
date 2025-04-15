@@ -11,5 +11,5 @@
     </div>
   </div>
 
-  <%= link_to "Book Now", new_booking_path , class: "btn btn-book" %>
+  <%= link_to "Book Now", new_booking_path(flight_id: @flight.id) , class: "btn btn-book" %>
 </div>

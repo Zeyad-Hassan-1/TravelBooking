@@ -1,4 +1,5 @@
-<%= form_with url: flights_path, method: :get, local: true, class: "flight-search-form" do %>
+<%= form_with model: @booking do |form|%>
+<%= form.hidden_field :flight_id, value: params[:flight_id] %>
   <div id="booking" class="section">
     <div class="section-center">
       <div class="container">
@@ -15,14 +16,14 @@
                     <div class="form-group">
                       <span class="form-label">Name</span>
                       <%# <input class="form-control" type="text" placeholder="City or airport"> %>
-                        <%= text_field_tag :name, params[:name], class: "form-control", placeholder: "Name" %>
+                        <%= form.text_field :passenger_name,value: params[:passenger_name], class: "form-control", placeholder: "Name" %>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <span class="form-label">phone number</span>
                       <%# <input class="form-control" type="text" placeholder="City or airport"> %>
-                        <%= text_field_tag :phone_number, params[:phone_number], class: "form-control", placeholder: "Phone number" %>
+                        <%= form.text_field :passenger_phone,value: params[:passenger_phone], class: "form-control", placeholder: "Phone number" %>
                     </div>
                   </div>
                 </div>
@@ -31,58 +32,13 @@
                     <div class="form-group">
                       <span class="form-label">Address</span>
                       <%# <input class="form-control" type="date" required> %>
-                        <%= text_field_tag :address, params[:address], class: "form-control", placeholder: "Address" %>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <span class="form-label">Zip code</span>
-                      <%# <input class="form-control" type="number" placeholder="$0.00"> %>
-                        <%= text_field_tag :zip_code, params[:zip_code], class: "form-control", placeholder: "Zip code" %>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <span class="form-label">Adults (18+)</span>
-                      <%# <select class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                      </select> %>
-                        <%= select_tag :adults, options_for_select([1, 2, 3], params[:Nadult]), class: "form-control" %>
-                      <span class="select-arrow"></span>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <span class="form-label">Children (0-17)</span>
-                      <%# <select class="form-control"> %>
-                        <%# <option>0</option>
-                        <option>1</option>
-                        <option>2</option>
-                      </select> %>
-                        <%= select_tag :children, options_for_select([0, 1, 2], params[:Nkids]), class: "form-control" %>
-                      <span class="select-arrow"></span>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <span class="form-label">Travel class</span>
-                      <%# <select class="form-control">
-                        <option>Economy class</option>
-                        <option>Business class</option>
-                        <option>First class</option>
-                      </select> %>
-                        <%= select_tag :travel_class, options_for_select(["Economy class","Business class","First class"], params[:travel_class]), class: "form-control" %>
-                      <span class="select-arrow"></span>
+                        <%= form.text_field :passenger_address,value: params[:passenger_address], class: "form-control", placeholder: "Address" %>
                     </div>
                   </div>
                 </div>
                 <div class="form-btn">
                   <%# <button class="submit-btn">Show flights</button> %>
-                  <%= submit_tag "Book Flight", class: "submit-btn" %>
+                  <%= form.submit "Book Flight", class: "submit-btn" %>
                 </div>
             </div>
           </div>
