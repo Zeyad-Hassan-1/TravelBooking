@@ -16,6 +16,7 @@
                       <span class="form-label">Flying from</span>
                       <%# <input class="form-control" type="text" placeholder="City or airport"> %>
                       <%= select_tag :departure_airport_id, options_from_collection_for_select(@airports, :id, :location, params[:departure_airport_id]), class: "form-control" %>
+                      <span class="select-arrow"></span>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -23,6 +24,7 @@
                       <span class="form-label">Flyning to</span>
                       <%# <input class="form-control" type="text" placeholder="City or airport"> %>
                       <%= select_tag :destination, options_for_select(@destination, params[:destination]), class: "form-control" %>
+                      <span class="select-arrow"></span>
                     </div>
                   </div>
                 </div>
@@ -32,6 +34,7 @@
                       <span class="form-label">Departing</span>
                       <%# <input class="form-control" type="date" required> %>
                       <%= select_tag :departure_date, options_for_select(@dates.map(&:to_s), params[:departure_date]), class: "form-control" %>
+                      <span class="select-arrow"></span>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -83,8 +86,6 @@
                 <span class="detail-value"><%= flight.arrival_airport.location %></span>
               </div>
             </div>
-            
-            <button class="btn btn-book">Book Now</button>
           </div>
         <% end %>
       <% end %>
