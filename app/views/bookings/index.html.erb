@@ -1,49 +1,57 @@
 <!-- filepath: /home/Zeyad/Travel/app/views/bookings/index.html.erb -->
+<div class="bookings-container">
+  <div class="bookings-header">
+    <h1>Your Bookings</h1>
+    <%= link_to 'New Booking', flights_path, class: 'btn btn-primary' %>
+  </div>
 
-<h1>Bookings</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Booking ID</th>
-      <th>Flight</th>
-      <th>User</th>
-      <th>Passenger Name</th>
-      <th>Passenger Email</th>
-      <th>Passenger Phone</th>
-      <th>Passenger Address</th>
-      <th>Zip Code</th>
-      <th>Number of Kids</th>
-      <th>Number of Adults</th>
-      <th>Travel Class</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
+  <div class="bookings-list">
     <% @bookings.each do |booking| %>
-      <tr>
-        <td><%= booking.id %></td>
-        <td>
-          Flight to <%= booking.flight.destination %> 
-          (Departure: <%= booking.flight.departure_date.strftime("%Y-%m-%d %H:%M") %>)
-        </td>
-        <td><%= booking.user.email %></td>
-        <td><%= booking.passenger_name %></td>
-        <td><%= booking.passenger_email %></td>
-        <td><%= booking.passenger_phone %></td>
-        <td><%= booking.passenger_address %></td>
-        <td><%= booking.zip_code %></td>
-        <td><%= booking.Nkids %></td>
-        <td><%= booking.Nadults %></td>
-        <td><%= booking.travel_class %></td>
-        <td>
-          <%= link_to 'Show', booking_path(booking) %> |
-          <%= link_to 'Edit', edit_booking_path(booking) %> |
-          <%= link_to 'Delete', booking_path(booking), method: :delete, data: { confirm: 'Are you sure?' } %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <div class="booking-card">
+        <div class="booking-header">
+          <div class="booking-id">Booking #<%= booking.id %></div>
+        </div>
 
-<%= link_to 'New Booking', new_booking_path %>
+        <div class="booking-body">
+          <div class="flight-info">
+            <h3>Flight to <%= booking.flight.destination %></h3>
+            <p class="flight-time">
+              <%= booking.flight.departure_date.strftime("%A, %B %d %Y at %H:%M") %>
+            </p>
+          </div>
+
+          <div class="passenger-info">
+            <h4>Passenger Details</h4>
+            <p><strong>Name:</strong> <%= booking.passenger_name %></p>
+            <p><strong>Contact:</strong> <%= booking.passenger_email %> | <%= booking.passenger_phone %></p>
+            <p><strong>Travel Class:</strong> <span class="travel-class <%= booking.travel_class.downcase.gsub(' ', '-') %>"><%= booking.travel_class %></span></p>
+          </div>
+
+            <div class="booking-meta">
+            <div class="passenger-count">
+                <% if booking.Nadults.present? %>
+                <span class="count">
+                    <%= booking.Nadults %> Adult<%= booking.Nadults.to_i > 1 ? 's' : '' %>
+                </span>
+                <% end %>
+                
+                <% if booking.Nkids.present? && booking.Nkids.to_i > 0 %>
+                <span class="count">
+                    <%= booking.Nkids %> Child<%= booking.Nkids.to_i > 1 ? 'ren' : '' %>
+                </span>
+                <% end %>
+            </div>
+            </div>
+        </div>
+
+        <div class="booking-actions">
+          <%= link_to 'View Details', booking_path(booking), class: 'btn btn-outline' %>
+          <%= link_to 'Edit', edit_booking_path(booking), class: 'btn btn-outline' %>
+          <%= button_to 'Cancel', booking_path(booking), method: :delete, 
+                form: { data: { turbo_confirm: 'Are you sure you want to cancel this booking?' } }, 
+                class: 'btn btn-danger' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
