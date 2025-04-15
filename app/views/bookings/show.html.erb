@@ -49,11 +49,19 @@
         </span>
       </div>
     </div>
+    <div class="detail-row">
+  <div class="detail-label">Status:</div>
+  <div class="detail-value">
+    <span class="status <%= @booking.status.downcase %>">
+      <%= @booking.status.capitalize %>
+    </span>
+  </div>
+  </div>
   </div>
 </div>
 <div class="booking-actions">
   <%= link_to 'Edit Booking', edit_booking_path(@booking), class: 'btn btn-primary' %>
-  <%= link_to 'Delete Booking', booking_path(@booking), method: :delete, data: { confirm: 'Are you sure you want to delete this booking?' }, class: 'btn btn-danger' %>
+  <%= button_to 'Delete Booking', booking_path(@booking), method: :delete, data: { confirm: 'Are you sure you want to delete this booking?' }, class: 'btn btn-danger' %>
   <%= link_to 'Back to Flights', flights_path, class: 'btn btn-secondary' %>
-  <%= button_to "احجز الآن", create_checkout_session_path(flight_id: @booking.flight_id), method: :post, class: "btn btn-primary" %>
+  <%= button_to "Payment", create_checkout_session_path(booking_id: @booking.id), method: :post, class: "btn btn-primary" %>
 </div>

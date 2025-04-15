@@ -1,46 +1,43 @@
+require 'faker'
+
 # Clear existing data
 Flight.destroy_all
 Airport.destroy_all
 
-# Create airports
-airport1 = Airport.create!(location: "New York")
-airport2 = Airport.create!(location: "Los Angeles")
-airport3 = Airport.create!(location: "Chicago")
-airport4 = Airport.create!(location: "Miami")
+# Create a smaller set of airports
+airport_locations = [
+  "New York", "Los Angeles", "Chicago", "Miami", "San Francisco",
+  "Houston", "Atlanta"
+]
+
+airports = airport_locations.map do |location|
+  Airport.create!(location: location)
+end
 
 puts "Airports created: #{Airport.count}"
 
-# Create flights
-Flight.create!(
-  destination: "Los Angeles",
-  arrival_airport_id: airport2.id,
-  departure_airport_id: airport1.id,
-  departure_date: DateTime.now + 1.day,
-  price: 300
-)
+# Create flights for the next 7 days with limited routes
+start_date = Date.today
+end_date = Date.today + 7.days
 
-Flight.create!(
-  destination: "New York",
-  arrival_airport_id: airport1.id,
-  departure_airport_id: airport2.id,
-  departure_date: DateTime.now + 2.days,
-  price: 350
-)
+(start_date..end_date).each do |date|
+  airports.each do |departure_airport|
+    # Randomly select 3-5 arrival airports for each departure airport
+    arrival_airports = airports.sample(rand(3..5))
 
-Flight.create!(
-  destination: "Chicago",
-  arrival_airport_id: airport3.id,
-  departure_airport_id: airport4.id,
-  departure_date: DateTime.now + 3.days,
-  price: 200
-)
+    arrival_airports.each do |arrival_airport|
+      next if departure_airport == arrival_airport # Skip flights to the same airport
 
-Flight.create!(
-  destination: "Miami",
-  arrival_airport_id: airport4.id,
-  departure_airport_id: airport3.id,
-  departure_date: DateTime.now + 4.days,
-  price: 250
-)
+      # Create a flight with a random departure time and price
+      Flight.create!(
+        destination: arrival_airport.location,
+        arrival_airport_id: arrival_airport.id,
+        departure_airport_id: departure_airport.id,
+        departure_date: date.to_datetime + rand(0..23).hours + rand(0..59).minutes, # Random time during the day
+        price: rand(100..500) # Lower price range for more realistic data
+      )
+    end
+  end
+end
 
 puts "Flights created: #{Flight.count}"

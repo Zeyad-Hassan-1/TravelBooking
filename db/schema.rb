@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_15_165713) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_15_220318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -33,6 +33,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_165713) do
     t.integer "Nkids"
     t.integer "Nadults"
     t.string "travel_class"
+    t.string "status", default: "pending"
+    t.string "checkout_session_id"
     t.index ["flight_id"], name: "index_bookings_on_flight_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
