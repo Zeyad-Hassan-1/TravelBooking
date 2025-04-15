@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "/favicon.ico", to: redirect("/assets/favicon.ico", status: 301)
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resources :flights, only: [ :index, :show ]
