@@ -35,6 +35,51 @@
                         <%= form.text_field :passenger_address,value: params[:passenger_address], class: "form-control", placeholder: "Address" %>
                     </div>
                   </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <span class="form-label">Zip code</span>
+                      <%# <input class="form-control" type="number" placeholder="$0.00"> %>
+                        <%= form.text_field :zip_code,value: params[:zip_code], class: "form-control", placeholder: "Zip code" %>
+                    </div>
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <span class="form-label">Adults (18+)</span>
+                      <%# <select class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                      </select> %>
+                      <%= form.select :Nadults, options_for_select([1, 2, 3], params[:Nadults]), {} ,class: "form-control" %>
+                      <span class="select-arrow"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <span class="form-label">Children (0-17)</span>
+                      <%# <select class="form-control"> %>
+                        <%# <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                      </select> %>
+                        <%= form.select :Nkids, options_for_select([0, 1, 2], params[:Nkids]),{}, class: "form-control" %>
+                      <span class="select-arrow"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <span class="form-label">Travel class</span>
+                      <%# <select class="form-control">
+                        <option>Economy class</option>
+                        <option>Business class</option>
+                        <option>First class</option>
+                      </select> %>
+                        <%= form.select :travel_class, options_for_select(["Economy class","Business class","First class"], params[:travel_class]), {} ,class: "form-control" %>
+                      <span class="select-arrow"></span>
+                    </div>
+                  </div>
                 </div>
                 <div class="form-btn">
                   <%# <button class="submit-btn">Show flights</button> %>

@@ -1,25 +1,53 @@
-<h1>Bookings#show</h1>
-<p>
-  <strong>Booking ID:</strong>
-  <%= @booking.id %>
-</p>
-<p>
-  <strong>Flight ID:</strong>
-  <%= @booking.flight_id %>
-</p>
-<p>
-  <strong>Passenger Name:</strong>
-  <%= @booking.passenger_name %>
-</p>
-<p>
-  <strong>Passenger Phone:</strong>
-  <%= @booking.passenger_phone %>
-</p>
-<p>
-  <strong>Passenger Email:</strong>
-  <%= @booking.passenger_email %>
-</p>
-<p>
-  <strong>Passenger Address:</strong>
-  <%= @booking.passenger_address %>
-</p>
+<div class="booking-container">
+  <div class="booking-header">
+    <h1>Booking Details</h1>
+    <div class="booking-id">Booking ID: <%= @booking.id %></div>
+  </div>
+
+  <div class="booking-details">
+    <div class="detail-row">
+      <div class="detail-label">Flight ID:</div>
+      <div class="detail-value"><%= @booking.flight_id %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Passenger Name:</div>
+      <div class="detail-value"><%= @booking.passenger_name %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Passenger Email:</div>
+      <div class="detail-value"><%= @booking.passenger_email %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Passenger Phone:</div>
+      <div class="detail-value"><%= @booking.passenger_phone %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Passenger Address:</div>
+      <div class="detail-value"><%= @booking.passenger_address %></div>
+    </div>
+
+    <div class="passenger-count">
+      <div class="count-box">
+        <div class="detail-label">Adults</div>
+        <div class="detail-value"><%= @booking.Nadults %></div>
+      </div>
+      <div class="count-box">
+        <div class="detail-label">Children</div>
+        <div class="detail-value"><%= @booking.Nkids %></div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Travel Class:</div>
+      <div class="detail-value">
+        <span class="travel-class <%= @booking.travel_class.downcase %>">
+          <%= @booking.travel_class %>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
