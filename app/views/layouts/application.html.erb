@@ -16,18 +16,21 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <!-- Google font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
 
+    <!-- Bootstrap (من assets) -->
+    <%= stylesheet_link_tag "bootstrap.min", media: "all" %>
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag  'Flight_search', media: 'all', 'data-turbolinks-track': 'reload'%>
     <%= stylesheet_link_tag  'auth', media: 'all', 'data-turbolinks-track': 'reload'%>
     <%= javascript_importmap_tags %>
+
+
   </head>
 
   <body>
     <%= yield %>
-    <% if user_signed_in? %>
-      <li><%= button_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'nav-button' %></li>
-    <% end %>
   </body>
 </html>

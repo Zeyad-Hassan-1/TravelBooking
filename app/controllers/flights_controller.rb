@@ -9,8 +9,9 @@ class FlightsController < ApplicationController
     if params[:commit]
       @flights = Flight.where(
         destination: params[:destination],
+        departure_airport_id: params[:departure_airport_id],
         ).where("date(departure_date) = ?", params[:departure_date])
-      @flights = @flights.where("price >= ?", params[:price]) if params[:price].present?
+      @flights = @flights.where("price <= ?", params[:max_price]) if params[:max_price].present?
     else
       @flights = []
     end
