@@ -16,6 +16,7 @@
     box-shadow: var(--shadow);
     padding: 2rem;
     margin-bottom: 2rem;
+    align-self: flex-start;
 }
 
 .form-container {
