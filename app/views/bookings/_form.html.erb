@@ -1,0 +1,74 @@
+<%= form_with model: booking do |form| %>
+  <%= form.hidden_field :flight_id, value: flight_id %>
+  <div id="booking" class="section">
+    <div class="section-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="booking-cta">
+              <h1><%= form_title %></h1>
+            </div>
+          </div>
+          <div class="col-md-7 col-md-offset-1">
+            <div class="booking-form">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <span class="form-label">Name</span>
+                      <%= form.text_field :passenger_name, class: "form-control", placeholder: "Name" %>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <span class="form-label">Phone number</span>
+                      <%= form.text_field :passenger_phone, class: "form-control", placeholder: "Phone number" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <span class="form-label">Address</span>
+                      <%= form.text_field :passenger_address, class: "form-control", placeholder: "Address" %>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <span class="form-label">Zip code</span>
+                      <%= form.text_field :zip_code, class: "form-control", placeholder: "Zip code" %>
+                    </div>
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <span class="form-label">Adults (18+)</span>
+                      <%= form.select :Nadults, options_for_select([1, 2, 3], booking.Nadults), {}, class: "form-control" %>
+                      <span class="select-arrow"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <span class="form-label">Children (0-17)</span>
+                      <%= form.select :Nkids, options_for_select([0, 1, 2], booking.Nkids), {}, class: "form-control" %>
+                      <span class="select-arrow"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <span class="form-label">Travel class</span>
+                      <%= form.select :travel_class, options_for_select(["Economy class", "Business class", "First class"], booking.travel_class), {}, class: "form-control" %>
+                      <span class="select-arrow"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-btn">
+                  <%= form.submit submit_button_text, class: "submit-btn" %>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

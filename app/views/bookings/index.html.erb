@@ -1,2 +1,49 @@
-<h1>Bookings#index</h1>
-<p>Find me in app/views/bookings/index.html.erb</p>
+<!-- filepath: /home/Zeyad/Travel/app/views/bookings/index.html.erb -->
+
+<h1>Bookings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Booking ID</th>
+      <th>Flight</th>
+      <th>User</th>
+      <th>Passenger Name</th>
+      <th>Passenger Email</th>
+      <th>Passenger Phone</th>
+      <th>Passenger Address</th>
+      <th>Zip Code</th>
+      <th>Number of Kids</th>
+      <th>Number of Adults</th>
+      <th>Travel Class</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bookings.each do |booking| %>
+      <tr>
+        <td><%= booking.id %></td>
+        <td>
+          Flight to <%= booking.flight.destination %> 
+          (Departure: <%= booking.flight.departure_date.strftime("%Y-%m-%d %H:%M") %>)
+        </td>
+        <td><%= booking.user.email %></td>
+        <td><%= booking.passenger_name %></td>
+        <td><%= booking.passenger_email %></td>
+        <td><%= booking.passenger_phone %></td>
+        <td><%= booking.passenger_address %></td>
+        <td><%= booking.zip_code %></td>
+        <td><%= booking.Nkids %></td>
+        <td><%= booking.Nadults %></td>
+        <td><%= booking.travel_class %></td>
+        <td>
+          <%= link_to 'Show', booking_path(booking) %> |
+          <%= link_to 'Edit', edit_booking_path(booking) %> |
+          <%= link_to 'Delete', booking_path(booking), method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Booking', new_booking_path %>
