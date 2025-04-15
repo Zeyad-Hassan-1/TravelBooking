@@ -23,6 +23,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_113719) do
   create_table "bookings", force: :cascade do |t|
     t.bigint "flight_id", null: false
     t.bigint "user_id", null: false
+    t.string "passenger_name"
+    t.string "passenger_email"
+    t.string "passenger_phone"
+    t.string "passenger_address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flight_id"], name: "index_bookings_on_flight_id"
