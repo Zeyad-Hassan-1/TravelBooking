@@ -29,9 +29,19 @@ COPY . .
 
 RUN bundle exec bootsnap precompile app/ lib/
 
-# FIX 1: Pass real SECRET_KEY_BASE during build
+# FIX: Add all required environment variables for asset compilation
 ARG SECRET_KEY_BASE
-ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
+ARG RAILS_MASTER_KEY
+ENV SECRET_KEY_BASE=$SECRET_KEY_BASE \
+    RAILS_MASTER_KEY=$RAILS_MASTER_KEY \
+    DATABASE_URL=postgresql://doesnt_matter_for_assets \
+    RAILS_LOG_TO_STDOUT=true
+
+# Temporary workaround for any missing credentials
+RUN if [ -f config/credentials.yml.enc ]; then \
+      touch config/credentials/production.key; \
+    fi
+
 RUN ./bin/rails assets:precompile
 
 FROM base
