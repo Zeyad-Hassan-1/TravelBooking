@@ -38,10 +38,12 @@ ENV SECRET_KEY_BASE=$SECRET_KEY_BASE \
     RAILS_LOG_TO_STDOUT=true
 
 # Temporary workaround for any missing credentials
+# Proper credentials handling
 RUN if [ -f config/credentials.yml.enc ]; then \
-      touch config/credentials/production.key; \
-    fi
-
+    mkdir -p config/credentials && \
+    touch config/credentials/production.key && \
+    chmod 600 config/credentials/production.key; \
+fi
 RUN ./bin/rails assets:precompile
 
 FROM base
