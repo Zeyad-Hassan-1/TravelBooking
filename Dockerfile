@@ -65,7 +65,7 @@ RUN echo "SECRET_KEY_BASE is set: $(test -n "$SECRET_KEY_BASE" && echo "Yes" || 
 RUN echo "RAILS_MASTER_KEY is set: $(test -n "$RAILS_MASTER_KEY" && echo "Yes" || echo "No")"
 
 # Run asset precompilation with more verbose output
-RUN RAILS_ENV=production bundle exec rails assets:precompile --trace || (echo "Asset compilation failed with status $?" && exit 1)
+RUN RAILS_ENV=production bundle exec rails assets:precompile --trace > /tmp/asset_compile_output.log 2>&1 || (cat /tmp/asset_compile_output.log && echo "Asset compilation failed with status $?" && exit 1)
 FROM base
 
 # Copy files from build stage
