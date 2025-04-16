@@ -5,17 +5,17 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 WORKDIR /rails
 
-# تثبيت الأدوات اللازمة
+# Install required tools
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# تثبيت Node.js و Yarn
+# Install Node.js and Yarn
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g yarn
 
-# تحديد بيئة الإنتاج
+# Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
@@ -23,24 +23,24 @@ ENV RAILS_ENV="production" \
 
 FROM base AS build
 
-# تثبيت الأدوات اللازمة للبناء
+# Install build tools
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# نسخ ملفات الجواهر وتثبيتها
+# Copy and install gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
-# نسخ باقي الملفات
+# Copy remaining files
 COPY . .
 
-# تثبيت الحزم الخاصة بـ JavaScript باستخدام yarn
+# Install JavaScript packages
 RUN yarn install
 
-# إضافة المتغيرات البيئية المطلوبة للتجميع الصحيح
+# Add required environment variables for proper compilation
 ARG SECRET_KEY_BASE
 ARG RAILS_MASTER_KEY
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE \
@@ -48,33 +48,33 @@ ENV SECRET_KEY_BASE=$SECRET_KEY_BASE \
     DATABASE_URL=postgresql://doesnt_matter_for_assets \
     RAILS_LOG_TO_STDOUT=true
 
-# معالجة مفتاح التكوين
+# Handle configuration key
 RUN if [ -f config/credentials.yml.enc ]; then \
     mkdir -p config/credentials && \
     touch config/credentials/production.key && \
     chmod 600 config/credentials/production.key; \
 fi
 
-# تعليق أو إزالة خطوة الـ assets:precompile مؤقتًا
+# Uncomment this when you're ready to precompile assets
 # RUN ./bin/rails assets:precompile
 
 FROM base
 
-# نسخ كل الملفات من مرحلة البناء
+# Copy files from build stage
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails
 
-# إعدادات المستخدم
+# User setup
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 
 USER 1000:1000
 
-# تعيين نقطة الإدخال
+# Set entry point
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 EXPOSE 80
 
-# تشغيل الخادم
-CMD ["./bin/thrust", "./bin/rails", "server"]
+# Run server (corrected)
+CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "80"]

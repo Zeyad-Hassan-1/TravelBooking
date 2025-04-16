@@ -6,9 +6,33 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
+# Wait for database to be ready
+function database_ready(){
+  # Check if database is ready
+  RETRIES=30
+  until psql ${DATABASE_URL} -c "select 1" > /dev/null 2>&1 || [ $RETRIES -eq 0 ]; do
+    echo "Waiting for PostgreSQL server, $((RETRIES--)) remaining attempts..."
+    sleep 2
+  done
+
+  if [ $RETRIES -eq 0 ]; then
+    echo "Database connection could not be established. Exiting..."
+    exit 1
+  fi
+  echo "Database connection established."
+}
+
 # If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+if [[ "$*" == *"rails"*"server"* ]]; then
+  echo "Checking database connection..."
+  database_ready
+  
+  echo "Running database migrations..."
   ./bin/rails db:prepare
+  
+  # Print environment information
+  echo "Rails environment: $RAILS_ENV"
+  echo "Database connections configured: $(grep -c "adapter:" config/database.yml) connections"
 fi
 
-exec "${@}"
+exec "$@"
