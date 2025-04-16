@@ -11,7 +11,7 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install Node.js and Yarn
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g yarn
 
@@ -55,8 +55,13 @@ RUN if [ -f config/credentials.yml.enc ]; then \
     chmod 600 config/credentials/production.key; \
 fi
 
+# Add this before the assets:precompile command
+RUN bundle exec rails about
+RUN node -v && yarn -v
+RUN ls -la
+
 # Uncomment this when you're ready to precompile assets
-RUN ./bin/rails assets:precompile
+RUN RAILS_ENV=production bundle exec rails assets:precompile --trace
 
 FROM base
 
