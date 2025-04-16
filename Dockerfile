@@ -55,14 +55,17 @@ RUN if [ -f config/credentials.yml.enc ]; then \
     chmod 600 config/credentials/production.key; \
 fi
 
-# Add this before the assets:precompile command
-RUN bundle exec rails about
+# Add debugging information before asset precompilation
 RUN node -v && yarn -v
+RUN bundle exec rails about || echo "Rails about command failed"
 RUN ls -la
+RUN pwd
+RUN echo "RAILS_ENV: $RAILS_ENV"
+RUN echo "SECRET_KEY_BASE is set: $(test -n "$SECRET_KEY_BASE" && echo "Yes" || echo "No")"
+RUN echo "RAILS_MASTER_KEY is set: $(test -n "$RAILS_MASTER_KEY" && echo "Yes" || echo "No")"
 
-# Uncomment this when you're ready to precompile assets
-RUN RAILS_ENV=production bundle exec rails assets:precompile --trace
-
+# Run asset precompilation with more verbose output
+RUN RAILS_ENV=production bundle exec rails assets:precompile --trace || (echo "Asset compilation failed with status $?" && exit 1)
 FROM base
 
 # Copy files from build stage
