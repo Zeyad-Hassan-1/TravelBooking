@@ -56,7 +56,7 @@ RUN if [ -f config/credentials.yml.enc ]; then \
 fi
 
 # Uncomment this when you're ready to precompile assets
-# RUN ./bin/rails assets:precompile
+RUN ./bin/rails assets:precompile
 
 FROM base
 
