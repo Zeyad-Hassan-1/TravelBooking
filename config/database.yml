@@ -12,8 +12,10 @@ test:
   database: your_app_test
 
 production:
+  <<: *default
   url: <%= ENV['DATABASE_URL'] %>
-  pool: 5
   timeout: 5000
-  encoding: unicode
-  adapter: postgresql
+
+  cable:
+    url: <%= ENV['CABLE_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
