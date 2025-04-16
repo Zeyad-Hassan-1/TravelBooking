@@ -10,6 +10,11 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+# تثبيت Node.js و Yarn
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g yarn
+
 # تحديد بيئة الإنتاج
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
@@ -32,7 +37,7 @@ RUN bundle install && \
 # نسخ باقي الملفات
 COPY . .
 
-# تثبيت الحزم الخاصة بـ JavaScript لو كنت تستخدم yarn
+# تثبيت الحزم الخاصة بـ JavaScript باستخدام yarn
 RUN yarn install
 
 # إضافة المتغيرات البيئية المطلوبة للتجميع الصحيح
